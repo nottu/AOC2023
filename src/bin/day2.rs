@@ -1,9 +1,9 @@
 fn main() {
-    let input = include_str!("day2_input.txt");
+    let input = include_str!("day2/input.txt");
     let output = part1(input);
     dbg!(output);
 
-    let input = include_str!("day2_input.txt");
+    let input = include_str!("day2/input.txt");
     let output = part2(input);
     dbg!(output);
 }
@@ -110,7 +110,7 @@ impl TryFrom<&str> for SetBalls {
 
 #[test]
 fn day2_classify_valid_tests() {
-    let input = include_str!("day2_test_input.txt");
+    let input = include_str!("day2/test_input.txt");
     let expected_validities: [bool; 5] = [true, true, false, false, true];
     input
         .lines()
@@ -147,7 +147,7 @@ impl Game {
 
 #[test]
 fn day2_test_part1() {
-    let input = include_str!("day2_test_input.txt");
+    let input = include_str!("day2/test_input.txt");
     assert_eq!(part1(input), "8")
 }
 
@@ -164,7 +164,7 @@ fn part1(input: &str) -> String {
 
 #[test]
 fn day2_test_part2() {
-    let input = include_str!("day2_test_input.txt");
+    let input = include_str!("day2/test_input.txt");
     assert_eq!(part2(input), "2286")
 }
 
