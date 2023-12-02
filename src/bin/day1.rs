@@ -1,16 +1,16 @@
 fn main() {
-    let input = include_str!("input.txt");
+    let input = include_str!("day1_input.txt");
     let output = part1(input);
     dbg!(output);
 
-    let input = include_str!("input.txt");
+    let input = include_str!("day1_input.txt");
     let output = part2(input);
     dbg!(output);
 }
 
 #[test]
 fn test_part1() {
-    let input = include_str!("test_input.txt");
+    let input = include_str!("day1_test_input.txt");
     let output = part1(input);
     assert_eq!(output, "142")
 }
@@ -31,7 +31,7 @@ fn get_first_and_last_digit_as_num(input: &str) -> usize {
 
 #[test]
 fn test_part_2() {
-    let input = include_str!("test_input2.txt");
+    let input = include_str!("day1_test_input2.txt");
     let output = part2(input);
     assert_eq!(output, "281")
 }
