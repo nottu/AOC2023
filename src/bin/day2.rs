@@ -1,9 +1,9 @@
 fn main() {
-    let input = include_str!("day2/input.txt");
+    let input = include_str!("day2/data.in");
     let output = part1(input);
     dbg!(output);
 
-    let input = include_str!("day2/input.txt");
+    let input = include_str!("day2/data.in");
     let output = part2(input);
     dbg!(output);
 }
