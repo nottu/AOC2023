@@ -34,28 +34,20 @@ fn parse_card(card: &str) -> usize {
 }
 
 fn get_card_matches(cards: &str) -> usize {
-    let cards = cards.split(':').nth(1).unwrap();
-    let cards = cards.split('|').collect::<Vec<&str>>();
+    let cards = cards.split(':').nth(1)
+        .expect("card should be formatted like 'Card <id> : <data>',  no ':' character found");
+        .split('|').collect::<Vec<&str>>();
 
-    // we assume card numbers can repeat themselves...
-    let mut right_side: HashMap<&str, usize> = HashMap::new();
-    for num in cards[1].trim().split(' ') {
-        let num = num.trim();
-        *right_side.entry(num).or_default() += 1;
-    }
+    let right_side: HashSet<&str> = cards.get(1)
+        .expect("card should have two sides separated by '|', no right side found")
+        .trim()
+        .split(' ').map(|num| num.trim()).collect;
 
-    cards[0]
+    cards.get(0)
+        .expect("card should have two sides separated by '|', no left side found")
         .trim()
         .split(' ')
-        .filter(|number| {
-            let curr_count = right_side.entry(number.trim()).or_default();
-            if number.is_empty() || *curr_count == 0 {
-                false
-            } else {
-                *curr_count -= 1;
-                true
-            }
-        })
+        .filter(|number| right_side.contins(number.trim()))
         .count()
 }
 
