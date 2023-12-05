@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::HashSet;
 
 fn main() {
     let input = include_str!("day4/input.txt");
@@ -34,21 +34,28 @@ fn parse_card(card: &str) -> usize {
 }
 
 fn get_card_matches(cards: &str) -> usize {
-    let cards = cards.split(':').nth(1)
-        .expect("card should be formatted like 'Card <id> : <data>',  no ':' character found");
-        .split('|').collect::<Vec<&str>>();
+    let cards = cards
+        .split(':')
+        .nth(1)
+        .expect("card should be formatted like 'Card <id> : <data>',  no ':' character found")
+        .split('|')
+        .collect::<Vec<&str>>();
 
-    let right_side: HashSet<&str> = cards.get(1)
-        .expect("card should have two sides separated by '|', no right side found")
-        .trim()
-        .split(' ').map(|num| num.trim()).collect;
-
-    cards.get(0)
-        .expect("card should have two sides separated by '|', no left side found")
+    let right_side: HashSet<_> = cards[1]
         .trim()
         .split(' ')
-        .filter(|number| right_side.contins(number.trim()))
-        .count()
+        .map(|num| num.trim())
+        .filter(|num| !num.is_empty())
+        .collect();
+
+    let left_side: HashSet<_> = cards[0]
+        .trim()
+        .split(' ')
+        .map(|num| num.trim())
+        .filter(|num| !num.is_empty())
+        .collect();
+
+    left_side.intersection(&right_side).count()
 }
 
 #[test]
@@ -59,11 +66,15 @@ fn day4_test_part2() {
 
 fn part2(input: &str) -> String {
     let parse_cards: Vec<_> = input.lines().map(get_card_matches).collect();
-    let mut parsed_cards_counts = vec![1; parse_cards.len()];
+    let mut card_counter = vec![0; parse_cards.len() + 1];
+    card_counter[0] = 1;
+    let mut count = 0;
+    let mut total_card_count = 0;
     for (idx, score) in parse_cards.into_iter().enumerate() {
-        for count_idx in 1..=score {
-            parsed_cards_counts[idx + count_idx] += parsed_cards_counts[idx];
-        }
+        count += card_counter[idx];
+        total_card_count += count;
+        card_counter[idx + 1] += count;
+        card_counter[idx + score + 1] -= count;
     }
-    parsed_cards_counts.iter().sum::<usize>().to_string()
+    total_card_count.to_string()
 }
