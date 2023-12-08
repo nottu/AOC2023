@@ -19,22 +19,8 @@ fn day8_test_part1() {
 
 fn part1(input: &str) -> String {
     let (directions, map) = parse_input(input);
-    let num_directions = directions.len();
-    let mut curr_node = "AAA".to_string();
-    let goal_node = "ZZZ".to_string();
-
-    let mut step_count = 0;
-    while curr_node != goal_node {
-        let next_dirs = &map[&curr_node];
-        curr_node = match directions[step_count % num_directions] {
-            Direction::Left => &next_dirs.left,
-            Direction::Right => &next_dirs.right,
-        }
-        .to_string();
-        step_count += 1;
-    }
-
-    step_count.to_string()
+    let curr_node = "AAA".to_string();
+    get_steps(curr_node, &map, &directions, |s: &str| s == "ZZZ").to_string()
 }
 
 #[derive(Debug)]
@@ -108,11 +94,10 @@ fn part2(input: &str) -> String {
         .map(|n| n.to_owned())
         .collect();
 
-    dbg!(&curr_nodes);
-
+    let check_is_end = |s: &str| s.ends_with('Z');
     curr_nodes
         .into_iter()
-        .map(|n| get_steps(n, &map, &directions))
+        .map(|n| get_steps(n, &map, &directions, check_is_end))
         .fold(1, num::integer::lcm)
         .to_string()
 }
@@ -121,11 +106,12 @@ fn get_steps(
     mut curr_node: String,
     map: &HashMap<String, Node>,
     directions: &Vec<Direction>,
+    check_is_end: fn(&str) -> bool,
 ) -> usize {
     let mut step_count = 0;
     let num_directions = directions.len();
 
-    while !curr_node.ends_with('Z') {
+    while !check_is_end(&curr_node) {
         let next_dirs = &map[&curr_node];
         curr_node = match directions[step_count % num_directions] {
             Direction::Left => &next_dirs.left,
@@ -134,6 +120,5 @@ fn get_steps(
         .to_string();
         step_count += 1;
     }
-
     step_count
 }
