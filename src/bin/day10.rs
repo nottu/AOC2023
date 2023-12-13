@@ -32,10 +32,37 @@ fn day10_test_part2() {
 fn part2(input: &str) -> String {
     let (start_position, mut map) = parse_map(input);
     let loop_tiles = find_loop(start_position, &map);
-    // cheaky and bad hard coding...
-    // FIX LATER!!!
-    map[start_position.y][start_position.x] = Tile::BendNE;
+
+    map[start_position.y][start_position.x] = find_starting_tile(start_position, &map);
     find_inner_tiles(&loop_tiles, &map).to_string()
+}
+
+fn find_starting_tile(start_position: Position, map: &[Vec<Tile>]) -> Tile {
+    let start_neighbours: Vec<_> = [
+        Direction::Up,
+        Direction::Down,
+        Direction::Left,
+        Direction::Right,
+    ]
+    .into_iter()
+    .filter(|&dir| get_next_position(start_position, dir, map).is_some())
+    .collect();
+    dbg!(&start_neighbours);
+    if start_neighbours.len() != 2 {
+        panic!("too many conections");
+    }
+    match (start_neighbours[0], start_neighbours[1]) {
+        (Direction::Up, Direction::Down) | (Direction::Down, Direction::Up) => Tile::VerticalPipe,
+
+        (Direction::Left, Direction::Right) | (Direction::Right, Direction::Left) => {
+            Tile::HorizontalPipe
+        }
+        (Direction::Up, Direction::Right) | (Direction::Right, Direction::Up) => Tile::BendNE,
+        (Direction::Up, Direction::Left) | (Direction::Left, Direction::Up) => Tile::BendNW,
+        (Direction::Right, Direction::Down) | (Direction::Down, Direction::Right) => Tile::BendSE,
+        (Direction::Left, Direction::Down) | (Direction::Down, Direction::Left) => Tile::BendSW,
+        _ => panic!("weird combo!"),
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
