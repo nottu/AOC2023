@@ -1,9 +1,9 @@
 fn main() {
-    let input = include_str!("day2/data.in");
+    let input = include_str!("day_02/data.in");
     let output = part1(input);
     dbg!(output);
 
-    let input = include_str!("day2/data.in");
+    let input = include_str!("day_02/data.in");
     let output = part2(input);
     dbg!(output);
 }
@@ -29,7 +29,7 @@ struct Game {
 struct GameParseError;
 
 #[test]
-fn day2_parse_game_test() {
+fn parse_game_test() {
     let game: &str = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green";
     let parsed_game = Game::try_from(game);
     assert!(parsed_game.is_ok());
@@ -109,8 +109,8 @@ impl TryFrom<&str> for SetBalls {
 }
 
 #[test]
-fn day2_classify_valid_tests() {
-    let input = include_str!("day2/test_input.txt");
+fn classify_valid_tests() {
+    let input = include_str!("day_02/test_input.txt");
     let expected_validities: [bool; 5] = [true, true, false, false, true];
     input
         .lines()
@@ -146,8 +146,8 @@ impl Game {
 }
 
 #[test]
-fn day2_test_part1() {
-    let input = include_str!("day2/test_input.txt");
+fn test_part1() {
+    let input = include_str!("day_02/test_input.txt");
     assert_eq!(part1(input), "8")
 }
 
@@ -163,8 +163,8 @@ fn part1(input: &str) -> String {
 }
 
 #[test]
-fn day2_test_part2() {
-    let input = include_str!("day2/test_input.txt");
+fn test_part2() {
+    let input = include_str!("day_02/test_input.txt");
     assert_eq!(part2(input), "2286")
 }
 

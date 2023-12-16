@@ -8,7 +8,7 @@ fn main() {
 }
 
 #[test]
-fn day16_test_part1() {
+fn test_part1() {
     let input = include_str!("day16/test_input.txt");
     assert_eq!(part1(input), "46");
 }

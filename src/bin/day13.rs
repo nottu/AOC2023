@@ -6,7 +6,7 @@ fn main() {
 }
 
 #[test]
-fn day13_test_part1() {
+fn test_part1() {
     let input = include_str!("day13/test_input.txt");
     assert_eq!(part1(input), "405");
 }
@@ -20,7 +20,7 @@ fn part1(input: &str) -> String {
 }
 
 #[test]
-fn day13_test_part2() {
+fn test_part2() {
     let input = include_str!("day13/test_input.txt");
     assert_eq!(part2(input), "400");
 }

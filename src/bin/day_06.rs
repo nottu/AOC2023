@@ -1,14 +1,14 @@
 fn main() {
-    let input = include_str!("day6/input.txt");
+    let input = include_str!("day_06/input.txt");
     dbg!(part1(input));
 
-    let input = include_str!("day6/input.txt");
+    let input = include_str!("day_06/input.txt");
     dbg!(part2(input));
 }
 
 #[test]
-fn day6_test_part1() {
-    let input = include_str!("day6/test_input.txt");
+fn test_part1() {
+    let input = include_str!("day_06/test_input.txt");
     assert_eq!(part1(input), "288")
 }
 
@@ -61,7 +61,7 @@ fn part1(input: &str) -> String {
 }
 
 #[test]
-fn day6_test_win_ways() {
+fn test_win_ways() {
     let win_ways = win_ways(7, 9);
     assert_eq!(win_ways, 4);
 }
@@ -83,8 +83,8 @@ fn win_ways(time: i64, distance: i64) -> i64 {
 }
 
 #[test]
-fn day6_test_part2() {
-    let input = include_str!("day6/test_input.txt");
+fn test_part2() {
+    let input = include_str!("day_06/test_input.txt");
     assert_eq!(part2(input), "71503")
 }
 

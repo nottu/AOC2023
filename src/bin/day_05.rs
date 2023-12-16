@@ -1,16 +1,16 @@
 use std::str::Lines;
 
 fn main() {
-    let input = include_str!("day5/input.txt");
+    let input = include_str!("day_05/input.txt");
     dbg!(part1(input));
 
-    let input = include_str!("day5/input.txt");
+    let input = include_str!("day_05/input.txt");
     dbg!(part2(input));
 }
 
 #[test]
 fn test_part1() {
-    let input = include_str!("day5/test_input.txt");
+    let input = include_str!("day_05/test_input.txt");
     assert_eq!(part1(input), "35")
 }
 
@@ -36,7 +36,7 @@ fn part1(input: &str) -> String {
 
 #[test]
 fn test_part2() {
-    let input = include_str!("day5/test_input.txt");
+    let input = include_str!("day_05/test_input.txt");
     assert_eq!(part2(input), "46")
 }
 fn part2(input: &str) -> String {

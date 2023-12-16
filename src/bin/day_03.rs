@@ -1,18 +1,18 @@
 use std::collections::{HashMap, HashSet};
 
 fn main() {
-    let input = include_str!("day3/input.txt");
+    let input = include_str!("day_03/input.txt");
     let output = part1(input);
     dbg!(output);
 
-    let input = include_str!("day3/input.txt");
+    let input = include_str!("day_03/input.txt");
     let output = part2(input);
     dbg!(output);
 }
 
 #[test]
-fn day3_test_part1() {
-    let input = include_str!("day3/test_input.txt");
+fn test_part1() {
+    let input = include_str!("day_03/test_input.txt");
     assert_eq!(part1(input), "4361")
 }
 
@@ -65,8 +65,8 @@ fn get_adjecent_positions(x: usize, y: usize) -> [(usize, usize); 8] {
 }
 
 #[test]
-fn day3_test_part2() {
-    let input = include_str!("day3/test_input.txt");
+fn test_part2() {
+    let input = include_str!("day_03/test_input.txt");
     assert_eq!(part2(input), "467835")
 }
 

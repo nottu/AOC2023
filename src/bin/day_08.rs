@@ -1,19 +1,19 @@
 use std::collections::HashMap;
 
 fn main() {
-    let input = include_str!("day8/input.txt");
+    let input = include_str!("day_08/input.txt");
     dbg!(part1(input));
 
-    let input = include_str!("day8/input.txt");
+    let input = include_str!("day_08/input.txt");
     dbg!(part2(input));
 }
 
 #[test]
-fn day8_test_part1() {
-    let input = include_str!("day8/test_input.txt");
+fn test_part1() {
+    let input = include_str!("day_08/test_input.txt");
     assert_eq!(part1(input), "2");
 
-    let input = include_str!("day8/test_input2.txt");
+    let input = include_str!("day_08/test_input2.txt");
     assert_eq!(part1(input), "6");
 }
 
@@ -81,8 +81,8 @@ fn parse_input(input: &str) -> (Vec<Direction>, HashMap<String, Node>) {
 }
 
 #[test]
-fn day8_test_part2() {
-    let input = include_str!("day8/test_input3.txt");
+fn test_part2() {
+    let input = include_str!("day_08/test_input3.txt");
     assert_eq!(part2(input), "6")
 }
 

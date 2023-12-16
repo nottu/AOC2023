@@ -1,16 +1,16 @@
 use std::collections::HashSet;
 
 fn main() {
-    let input = include_str!("day4/input.txt");
+    let input = include_str!("day_04/input.txt");
     dbg!(part1(input));
 
-    let input = include_str!("day4/input.txt");
+    let input = include_str!("day_04/input.txt");
     dbg!(part2(input));
 }
 
 #[test]
-fn day4_test_part1() {
-    let input = include_str!("day4/test_input.txt");
+fn test_part1() {
+    let input = include_str!("day_04/test_input.txt");
     assert_eq!(part1(input), "13")
 }
 
@@ -19,7 +19,7 @@ fn part1(input: &str) -> String {
 }
 
 #[test]
-fn day4_parse_card() {
+fn test_parse_card() {
     let value = parse_card("Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53");
     assert_eq!(value, 8)
 }
@@ -59,8 +59,8 @@ fn get_card_matches(cards: &str) -> usize {
 }
 
 #[test]
-fn day4_test_part2() {
-    let input = include_str!("day4/test_input.txt");
+fn test_part2() {
+    let input = include_str!("day_04/test_input.txt");
     assert_eq!(part2(input), "30")
 }
 

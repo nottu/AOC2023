@@ -1,8 +1,8 @@
 fn main() {
-    let input = include_str!("day7/input.txt");
+    let input = include_str!("day_07/input.txt");
     dbg!(part1(input));
 
-    let input = include_str!("day7/input.txt");
+    let input = include_str!("day_07/input.txt");
     dbg!(part2(input));
 }
 
@@ -91,8 +91,8 @@ fn get_hand_types(hand: &Hand, use_jokers: bool) -> Vec<HandType> {
 }
 
 #[test]
-fn day7_test_part1() {
-    let input = include_str!("day7/test_input.txt");
+fn test_part1() {
+    let input = include_str!("day_07/test_input.txt");
     assert_eq!(part1(input), "6440")
 }
 
@@ -169,8 +169,8 @@ fn parse_hand(input: &str) -> Hand {
 }
 
 #[test]
-fn day7_test_part2() {
-    let input = include_str!("day7/test_input.txt");
+fn test_part2() {
+    let input = include_str!("day_07/test_input.txt");
     assert_eq!(part2(input), "5905")
 }
 
