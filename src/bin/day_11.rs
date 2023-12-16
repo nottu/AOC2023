@@ -1,18 +1,18 @@
 use std::{collections::HashSet, usize};
 
 fn main() {
-    let input = include_str!("day11/input.txt");
+    let input = include_str!("day_11/input.txt");
     dbg!(part1(input));
     // should produce the same results
     // assert_eq!(part1(input), part2(input, 2));
 
-    let input = include_str!("day11/input.txt");
+    let input = include_str!("day_11/input.txt");
     dbg!(part2(input, 1000000));
 }
 
 #[test]
 fn test_part1() {
-    let input = include_str!("day11/test_input.txt");
+    let input = include_str!("day_11/test_input.txt");
     assert_eq!(part1(input), "374");
 }
 
@@ -34,10 +34,10 @@ fn part1(input: &str) -> String {
 
 #[test]
 fn test_part2() {
-    let input = include_str!("day11/test_input.txt");
+    let input = include_str!("day_11/test_input.txt");
     assert_eq!(part2(input, 10), "1030");
 
-    let input = include_str!("day11/test_input.txt");
+    let input = include_str!("day_11/test_input.txt");
     assert_eq!(part2(input, 100), "8410");
 }
 

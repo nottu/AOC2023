@@ -1,13 +1,13 @@
 fn main() {
-    let input = include_str!("day15/input.txt");
+    let input = include_str!("day_15/input.txt");
     dbg!(part1(input));
-    let input = include_str!("day15/input.txt");
+    let input = include_str!("day_15/input.txt");
     dbg!(part2(input));
 }
 
 #[test]
 fn test_part1() {
-    let input = include_str!("day15/test_input.txt");
+    let input = include_str!("day_15/test_input.txt");
     assert_eq!(part1(input), "1320");
 }
 
@@ -22,7 +22,7 @@ fn part1(input: &str) -> String {
 
 #[test]
 fn test_part2() {
-    let input = include_str!("day15/test_input.txt");
+    let input = include_str!("day_15/test_input.txt");
     assert_eq!(part2(input), "145");
 }
 

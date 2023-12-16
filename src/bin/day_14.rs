@@ -1,15 +1,15 @@
 use std::collections::HashMap;
 
 fn main() {
-    let input = include_str!("day14/input.txt");
+    let input = include_str!("day_14/input.txt");
     dbg!(part1(input));
-    let input = include_str!("day14/input.txt");
+    let input = include_str!("day_14/input.txt");
     dbg!(part2(input));
 }
 
 #[test]
 fn test_part1() {
-    let input = include_str!("day14/test_input.txt");
+    let input = include_str!("day_14/test_input.txt");
     assert_eq!(part1(input), "136");
 }
 
@@ -34,7 +34,7 @@ fn part1(input: &str) -> String {
 
 #[test]
 fn test_part2() {
-    let input = include_str!("day14/test_input.txt");
+    let input = include_str!("day_14/test_input.txt");
     assert_eq!(part2(input), "64");
 }
 
