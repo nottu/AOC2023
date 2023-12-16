@@ -186,64 +186,7 @@ fn simulate_beams(
         let new_beams = beam_interactions
             .into_iter()
             .flatten()
-            .filter_map(|direction| match direction {
-                Direction::Right => {
-                    if beam.position.x + 1 < map_width {
-                        let position = Position {
-                            y: beam.position.y,
-                            x: beam.position.x + 1,
-                        };
-                        Some(Beam {
-                            direction,
-                            position,
-                        })
-                    } else {
-                        None
-                    }
-                }
-                Direction::Left => {
-                    if beam.position.x > 0 {
-                        let position = Position {
-                            y: beam.position.y,
-                            x: beam.position.x - 1,
-                        };
-                        Some(Beam {
-                            direction,
-                            position,
-                        })
-                    } else {
-                        None
-                    }
-                }
-                Direction::Up => {
-                    if beam.position.y > 0 {
-                        let position = Position {
-                            y: beam.position.y - 1,
-                            x: beam.position.x,
-                        };
-                        Some(Beam {
-                            direction,
-                            position,
-                        })
-                    } else {
-                        None
-                    }
-                }
-                Direction::Down => {
-                    if beam.position.y + 1 < map_height {
-                        let position = Position {
-                            y: beam.position.y + 1,
-                            x: beam.position.x,
-                        };
-                        Some(Beam {
-                            direction,
-                            position,
-                        })
-                    } else {
-                        None
-                    }
-                }
-            });
+            .filter_map(|direction| next_beam(direction, beam.position, map_width, map_height));
         for beam in new_beams.filter(|beam| !visited.contains(beam)) {
             beams.push_back(beam);
         }
@@ -256,5 +199,43 @@ fn clear_map(map: &mut [Vec<(Tiles, bool)>]) {
         for tile in row {
             tile.1 = false
         }
+    }
+}
+
+fn next_beam(
+    direction: Direction,
+    prev_position: Position,
+    map_width: usize,
+    map_height: usize,
+) -> Option<Beam> {
+    match direction {
+        Direction::Right => (prev_position.x + 1 < map_width).then_some(Beam {
+            direction,
+            position: Position {
+                y: prev_position.y,
+                x: prev_position.x + 1,
+            },
+        }),
+        Direction::Left => (prev_position.x > 0).then_some(Beam {
+            direction,
+            position: Position {
+                y: prev_position.y,
+                x: prev_position.x - 1,
+            },
+        }),
+        Direction::Up => (prev_position.y > 0).then_some(Beam {
+            direction,
+            position: Position {
+                y: prev_position.y - 1,
+                x: prev_position.x,
+            },
+        }),
+        Direction::Down => (prev_position.y + 1 < map_height).then_some(Beam {
+            direction,
+            position: Position {
+                y: prev_position.y + 1,
+                x: prev_position.x,
+            },
+        }),
     }
 }
