@@ -16,6 +16,7 @@ fn day16_test_part1() {
 fn part1(input: &str) -> String {
     let mut map = parse_map(input);
     let mut visited: HashSet<Beam> = HashSet::new();
+    let mut beams = VecDeque::new();
     simulate_beams(
         &mut map,
         Beam {
@@ -23,6 +24,7 @@ fn part1(input: &str) -> String {
             direction: Direction::Right,
         },
         &mut visited,
+        &mut beams,
     );
     engergized(&map).to_string()
 }
@@ -35,64 +37,48 @@ fn day16_test_part2() {
 
 fn part2(input: &str) -> String {
     let mut map = parse_map(input);
-    let mut max_activated = 0;
     let map_height = map.len();
     let map_widht = map[0].len();
+    let y_positions = (0..map_height).flat_map(|y| {
+        [
+            Position { y, x: 0 },
+            Position {
+                y,
+                x: map_widht - 1,
+            },
+        ]
+    });
+    let x_positions = (0..map_widht).flat_map(|x| {
+        [
+            Position { y: 0, x },
+            Position {
+                y: map_height - 1,
+                x,
+            },
+        ]
+    });
+
     let mut visited: HashSet<Beam> = HashSet::new();
-    for y in 0..map_height {
-        clear_map(&mut map);
-        visited.clear();
-        simulate_beams(
-            &mut map,
-            Beam {
-                position: Position { y, x: 0 },
-                direction: Direction::Right,
-            },
-            &mut visited,
-        );
-        max_activated = std::cmp::max(max_activated, engergized(&map));
-
-        clear_map(&mut map);
-        visited.clear();
-        simulate_beams(
-            &mut map,
-            Beam {
-                position: Position {
-                    y,
-                    x: map_widht - 1,
+    let mut beams = VecDeque::new();
+    let max_activated = y_positions
+        .chain(x_positions)
+        .map(|position| {
+            clear_map(&mut map);
+            visited.clear();
+            beams.clear();
+            simulate_beams(
+                &mut map,
+                Beam {
+                    position,
+                    direction: Direction::Right,
                 },
-                direction: Direction::Left,
-            },
-            &mut visited,
-        );
-        max_activated = std::cmp::max(max_activated, engergized(&map));
-    }
-    for x in 0..map_widht {
-        clear_map(&mut map);
-        simulate_beams(
-            &mut map,
-            Beam {
-                position: Position { y: 0, x },
-                direction: Direction::Down,
-            },
-            &mut visited,
-        );
-        max_activated = std::cmp::max(max_activated, engergized(&map));
-
-        clear_map(&mut map);
-        simulate_beams(
-            &mut map,
-            Beam {
-                position: Position {
-                    y: map_height - 1,
-                    x,
-                },
-                direction: Direction::Left,
-            },
-            &mut visited,
-        );
-        max_activated = std::cmp::max(max_activated, engergized(&map));
-    }
+                &mut visited,
+                &mut beams,
+            );
+            engergized(&map)
+        })
+        .max()
+        .expect("expected max");
 
     max_activated.to_string()
 }
@@ -180,10 +166,14 @@ struct Beam {
     direction: Direction,
 }
 
-fn simulate_beams(map: &mut [Vec<(Tiles, bool)>], start_beam: Beam, visited: &mut HashSet<Beam>) {
-    let mut beams = VecDeque::new();
-    let map_width = map[0].len();
+fn simulate_beams(
+    map: &mut [Vec<(Tiles, bool)>],
+    start_beam: Beam,
+    visited: &mut HashSet<Beam>,
+    beams: &mut VecDeque<Beam>,
+) {
     let map_height = map.len();
+    let map_width = map[0].len();
     beams.push_back(start_beam);
     let mut remaining_steps = 10000000;
     while !beams.is_empty() && remaining_steps != 0 {
