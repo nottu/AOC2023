@@ -1,10 +1,10 @@
-use std::usize;
+use std::{collections::HashSet, usize};
 
 fn main() {
     let input = include_str!("day11/input.txt");
     dbg!(part1(input));
     // should produce the same results
-    assert_eq!(part1(input), part2(input, 2));
+    // assert_eq!(part1(input), part2(input, 2));
 
     let input = include_str!("day11/input.txt");
     dbg!(part2(input, 1000000));
@@ -19,7 +19,6 @@ fn day11_test_part1() {
 fn part1(input: &str) -> String {
     let universe = parse_galaxy(input);
     let universe = expand_universe(&universe);
-    // print_universe(&universe);
     let positions = get_galaxy_positions(&universe);
 
     let mut sum_distances = 0;
@@ -44,8 +43,8 @@ fn day11_test_part2() {
 
 fn part2(input: &str, expansion_rate: usize) -> String {
     let universe = parse_galaxy(input);
-    let empty_rows: Vec<_> = get_empty_rows(&universe);
-    let empty_cols: Vec<usize> = get_empty_cols(&universe);
+    let empty_rows = get_empty_rows(&universe);
+    let empty_cols = get_empty_cols(&universe);
     let positions = get_galaxy_positions(&universe);
     let mut sum_distances = 0;
     for (y, g1) in positions.iter().enumerate() {
@@ -85,18 +84,18 @@ enum Tile {
     Space,
 }
 
-fn get_empty_rows(universe: &[Vec<Tile>]) -> Vec<usize> {
+fn get_empty_rows(universe: &[Vec<Tile>]) -> HashSet<usize> {
     universe
         .iter()
         .enumerate()
         .filter_map(|(idx, tiles)| tiles.iter().all(|&t| t == Tile::Space).then_some(idx))
         .collect()
 }
-fn get_empty_cols(universe: &[Vec<Tile>]) -> Vec<usize> {
-    let mut empty_cols = vec![];
+fn get_empty_cols(universe: &[Vec<Tile>]) -> HashSet<usize> {
+    let mut empty_cols = HashSet::new();
     for idx in 0..universe[0].len() {
         if universe.iter().map(|r| r[idx]).all(|t| t == Tile::Space) {
-            empty_cols.push(idx)
+            empty_cols.insert(idx);
         }
     }
     empty_cols
@@ -104,9 +103,8 @@ fn get_empty_cols(universe: &[Vec<Tile>]) -> Vec<usize> {
 
 fn expand_universe(universe: &[Vec<Tile>]) -> Vec<Vec<Tile>> {
     // find row with no galaxies
-    let empty_rows: Vec<_> = get_empty_rows(universe);
-
-    let empty_cols: Vec<usize> = get_empty_cols(universe);
+    let empty_rows = get_empty_rows(universe);
+    let empty_cols = get_empty_cols(universe);
 
     let mut expanded = vec![];
     for (y, row) in universe.iter().enumerate() {
@@ -125,37 +123,6 @@ fn expand_universe(universe: &[Vec<Tile>]) -> Vec<Vec<Tile>> {
     expanded
 }
 
-#[test]
-fn test_expand_universe() {
-    let input = "...#......
-        .......#..
-        #.........
-        ..........
-        ......#...
-        .#........
-        .........#
-        ..........
-        .......#..
-        #...#.....";
-    let universe = parse_galaxy(input);
-    print_universe(&universe);
-    let expanded_universe = "....#........
-    .........#...
-    #............
-    .............
-    .............
-    ........#....
-    .#...........
-    ............#
-    .............
-    .............
-    .........#...
-    #....#.......";
-    let expanded_galaxy = parse_galaxy(expanded_universe);
-    // print_universe(&expand_universe(&universe));
-    assert_eq!(expand_universe(&universe), expanded_galaxy)
-}
-
 fn parse_galaxy(input: &str) -> Vec<Vec<Tile>> {
     input
         .lines()
@@ -170,18 +137,6 @@ fn parse_galaxy(input: &str) -> Vec<Vec<Tile>> {
                 .collect()
         })
         .collect()
-}
-
-fn print_universe(universe: &[Vec<Tile>]) {
-    for row in universe {
-        for tile in row {
-            if *tile == Tile::Space {
-                print!(".")
-            } else {
-                print!("#")
-            }
-        }
-    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

@@ -30,9 +30,9 @@ fn part1(input: &str) -> String {
 }
 
 #[test]
-fn day16_test_part2() {
+fn test_part2() {
     let input = include_str!("day16/test_input.txt");
-    assert_eq!(part2(input), "145");
+    assert_eq!(part2(input), "51");
 }
 
 fn part2(input: &str) -> String {
@@ -41,19 +41,31 @@ fn part2(input: &str) -> String {
     let map_widht = map[0].len();
     let y_positions = (0..map_height).flat_map(|y| {
         [
-            Position { y, x: 0 },
-            Position {
-                y,
-                x: map_widht - 1,
+            Beam {
+                position: Position { y, x: 0 },
+                direction: Direction::Right,
+            },
+            Beam {
+                position: Position {
+                    y,
+                    x: map_widht - 1,
+                },
+                direction: Direction::Left,
             },
         ]
     });
     let x_positions = (0..map_widht).flat_map(|x| {
         [
-            Position { y: 0, x },
-            Position {
-                y: map_height - 1,
-                x,
+            Beam {
+                position: Position { y: 0, x },
+                direction: Direction::Down,
+            },
+            Beam {
+                position: Position {
+                    y: map_height - 1,
+                    x,
+                },
+                direction: Direction::Up,
             },
         ]
     });
@@ -62,25 +74,18 @@ fn part2(input: &str) -> String {
     let mut beams = VecDeque::new();
     let max_activated = y_positions
         .chain(x_positions)
-        .map(|position| {
+        .map(|beam| {
+            // reuse-repair-recycle => less calls to allocate memory from heap
             clear_map(&mut map);
             visited.clear();
             beams.clear();
-            simulate_beams(
-                &mut map,
-                Beam {
-                    position,
-                    direction: Direction::Right,
-                },
-                &mut visited,
-                &mut beams,
-            );
-            engergized(&map)
+            simulate_beams(&mut map, beam, &mut visited, &mut beams);
+            (beam, engergized(&map))
         })
-        .max()
+        .max_by_key(|(_p, energy)| *energy)
         .expect("expected max");
-
-    max_activated.to_string()
+    // dbg!(max_activated);
+    max_activated.1.to_string()
 }
 
 #[inline]
@@ -220,13 +225,13 @@ fn next_beam(
             direction,
             position: Position {
                 y: prev_position.y,
-                x: prev_position.x - 1,
+                x: prev_position.x.saturating_sub(1),
             },
         }),
         Direction::Up => (prev_position.y > 0).then_some(Beam {
             direction,
             position: Position {
-                y: prev_position.y - 1,
+                y: prev_position.y.saturating_sub(1),
                 x: prev_position.x,
             },
         }),

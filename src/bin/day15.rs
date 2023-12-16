@@ -35,20 +35,20 @@ fn part2(input: &str) -> String {
         match step.operation {
             Operation::Remove => {
                 let mut item_idx = None;
-                for idx in 0..curr_box.len() {
-                    if curr_box[idx].0 == step.label {
+                for (idx, curr_box_item) in curr_box.iter().enumerate() {
+                    if curr_box_item.0 == step.label {
                         item_idx = Some(idx);
                         break;
                     }
                 }
-                if item_idx.is_some() {
-                    curr_box.remove(item_idx.unwrap());
+                if let Some(item_idx) = item_idx {
+                    curr_box.remove(item_idx);
                 }
             }
             Operation::Equal(focal_len) => {
                 let mut item_idx = None;
-                for idx in 0..curr_box.len() {
-                    if curr_box[idx].0 == step.label {
+                for (idx, curr_box_item) in curr_box.iter().enumerate() {
+                    if curr_box_item.0 == step.label {
                         item_idx = Some(idx);
                         break;
                     }
