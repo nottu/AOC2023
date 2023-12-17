@@ -158,7 +158,7 @@ fn minimize_heat_bfs(
             visited.insert(move_info, heat_loss);
         }
         visited.insert(move_info, heat_loss);
-        let next: Vec<_> = move_info
+        let next = move_info
             .prev_direction
             .get_next_directions()
             .map(|direction| {
@@ -197,8 +197,7 @@ fn minimize_heat_bfs(
                 }
             })
             .into_iter()
-            .flatten()
-            .collect();
+            .flatten();
         for (move_info, curr_loss) in next {
             to_visit.push(PathData {
                 move_info,
